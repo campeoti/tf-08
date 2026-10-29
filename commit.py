@@ -59,3 +59,13 @@ class Repositorio:
             total = total + 1
             commit_atual = commit_atual.pai
         return total
+
+
+repositorio = Repositorio("lancamento-notas", "Rodrigo Campeoti - 6326012")
+repositorio.log()
+repositorio.commitar("Cria a tela de cadastro de alunos")
+repositorio.commitar("Adiciona o calculo da media final")
+repositorio.commitar("Corrige o arredondamento das notas")
+repositorio.commitar("Documenta como rodar o projeto")
+repositorio.log()
+print(repositorio.total_de_commits())
