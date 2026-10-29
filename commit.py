@@ -23,3 +23,39 @@ class Commit:
         if self.pai is None:
             return
         self.pai.historico()
+
+
+# O repositório guarda o nome do projeto, o autor e o head, que aponta para
+# o commit mais recente. Ele também conta quantos commits já criou, para dar
+# um número diferente a cada um.
+class Repositorio:
+    def __init__(self, nome, autor):
+        self.nome = nome
+        self.autor = autor
+        self.head = None
+        self.contador_de_commits = 0
+
+    # Cria um commit novo em cima do head atual. O contador sobe antes, então
+    # o primeiro commit recebe o id 1. O commit novo passa a ser o head e o
+    # antigo head vira o pai dele. Não devolve nada.
+    def commitar(self, mensagem):
+        self.contador_de_commits = self.contador_de_commits + 1
+        self.head = Commit(self.contador_de_commits, mensagem, self.autor, self.head)
+
+    # Mostra os commits do mais novo para o mais antigo, começando pelo head.
+    # Sem nenhum commit ainda, só avisa e sai.
+    def log(self):
+        if self.head is None:
+            print("Nenhum commit ainda")
+            return
+        self.head.historico()
+
+    # Conta os commits andando do head até o primeiro, de pai em pai.
+    # Quando o commit atual vira None, passamos do primeiro e acabou.
+    def total_de_commits(self):
+        total = 0
+        commit_atual = self.head
+        while commit_atual is not None:
+            total = total + 1
+            commit_atual = commit_atual.pai
+        return total
